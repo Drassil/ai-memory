@@ -11,7 +11,7 @@ This project utilizes an Elasticsearch API and a GPT model to store and manage a
 
 ## Getting Started
 
-This guide will help you set up and use the AI-Memory project, which utilizes an Elasticsearch API and a GPT model to store and manage a chronological repository of information.
+This guide will help you set up and use the AI-Memory project.
 
 ### 1. Install Elasticsearch
 
@@ -59,13 +59,7 @@ Example:
 cp gpt-values-override-conf.dist.sh gpt-values-override-conf.myid.sh
 ```
 
-Edit `gpt-values-override-conf.myid.sh` to set your values:
-```sh
-export AI_MEMORY_ELASTIC_SEARCH_URL="https://your-elastic-search-url"
-export AI_MEMORY_ELASTIC_SEARCH_INDEX_SUFFIX="your_suffix"
-export AI_MEMORY_PERSONAL_NAME="Your Name"
-export AI_MEMORY_EXTRA_PERSONAL_INFO="Your additional info"
-```
+Edit `gpt-values-override-conf.myid.sh` and set your values
 
 ### 5. Generate Files
 
@@ -85,7 +79,7 @@ Set the API key for the action using the one generated from Elasticsearch. It's 
 
  select
 
- the Authentication type: `ApiKey`. The API key box should contain the value `ApiKey <yourapikey>` (the prefix `ApiKey` is fundamental) and the Auth should be set to `Custom`.
+ the Authentication type: `ApiKey`. The API key box should contain the value `ApiKey <yourapikey>` (the prefix `ApiKey` is fundamental) and the Auth should be set to `Custom` with the value `Authorizer`
 
 ### Using the GPT
 
