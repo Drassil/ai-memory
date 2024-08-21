@@ -1,0 +1,4 @@
+gpt-values-override-conf.*.sh
+!gpt-values-override-conf.dist.sh
+out/*
+!out/.gitkeep

@@ -1,0 +1,424 @@
+---
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Elasticsearch API
+  license:
+    name: MIT
+servers:
+  - url: ${AI_MEMORY_ELASTIC_SEARCH_URL}
+
+paths:
+  /${AI_MEMORY_ELASTIC_SEARCH_INDEX}/_doc/:
+    post:
+      summary: Add a new document. The content field is always required.
+      operationId: addDocument
+      x-openai-isConsequential: false
+      tags:
+        - document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Document"
+      responses:
+        "201":
+          description: Document added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    description: The ID of the newly created document
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/${AI_MEMORY_ELASTIC_SEARCH_INDEX}/_update/{id}":
+    post:
+      summary: Update a document by ID
+      operationId: updateDocument
+      x-openai-isConsequential: false
+      tags:
+        - document
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Document ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentUpdate"
+      responses:
+        "200":
+          description: Document updated successfully
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /${AI_MEMORY_ELASTIC_SEARCH_INDEX}/_update_by_query:
+    post:
+      summary: Bulk update documents by query
+      operationId: bulkUpdateDocuments
+      x-openai-isConsequential: false
+      tags:
+        - document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: object
+                  description: Elasticsearch query to match documents for updating
+                  example:
+                    match:
+                      status: pending
+                script:
+                  type: object
+                  properties:
+                    source:
+                      type: string
+                      description: Script to execute on matched documents
+                      example: ctx._source.status = 'completed';
+                    params:
+                      type: object
+                      additionalProperties: true
+                      description: Parameters for the script
+              required:
+                - query
+                - script
+      responses:
+        "200":
+          description: Documents updated successfully
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /index-ai-memory-*/_search:
+    post:
+      summary: Search for documents
+      operationId: searchDocuments
+      x-openai-isConsequential: false
+      tags:
+        - search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: object
+                  properties:
+                    query_string:
+                      type: object
+                      properties:
+                        query:
+                          type: string
+                          description: Search keywords
+                      required:
+                        - query
+                  required:
+                    - query_string
+                size:
+                  type: integer
+                  description: Number of search results to return
+                  example: 5
+              required:
+                - query
+                - size
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResults"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /${AI_MEMORY_ELASTIC_SEARCH_INDEX}/_mapping:
+    put:
+      summary: Configure the index with custom mappings
+      operationId: configureIndex
+      x-openai-isConsequential: false
+      tags:
+        - index
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                properties:
+                  type: object
+                  properties:
+                    content:
+                      type: string
+                      description: Contains the main content or details of the document.
+                      x-elasticsearch-type: text
+                    peopleInvolved:
+                      type: string
+                      description: List of people involved in the memory or event.
+                      x-elasticsearch-type: keyword
+                    priority:
+                      type: string
+                      description: Priority level of the task or reminder.
+                      x-elasticsearch-type: keyword
+                    start_date:
+                      type: string
+                      format: date-time
+                      description: The start date or time associated with the document.
+                      x-elasticsearch-type: date
+                    end_date:
+                      type: string
+                      format: date-time
+                      description: The end date or time associated with the document.
+                      x-elasticsearch-type: date
+                    status:
+                      type: string
+                      description: The current status of the document.
+                      x-elasticsearch-type: keyword
+                    location:
+                      type: string
+                      description: Location where the memory or event occurred.
+                      x-elasticsearch-type: keyword
+                    visitedWith:
+                      type: string
+                      description: List of people who visited the location with you.
+                      x-elasticsearch-type: keyword
+                    author:
+                      type: string
+                      description: Author of the quote.
+                      x-elasticsearch-type: keyword
+                    context:
+                      type: string
+                      description: Context or occasion where the quote was said.
+                      x-elasticsearch-type: text
+                    "@timestamp":
+                      type: string
+                      format: date-time
+                      description: The timestamp when the document was created or updated.
+                      x-elasticsearch-type: date
+                    type:
+                      type: string
+                      description: Defines the category or type of the document.
+                      x-elasticsearch-type: keyword
+                    tag:
+                      type: string
+                      description: Tags associated with the document for easier categorization.
+                      x-elasticsearch-type: keyword
+                    __meta_disabled:
+                      type: boolean
+                      description: Flag indicating whether the document is disabled or inactive.
+                      x-elasticsearch-type: boolean
+                    __meta_update_reason:
+                      type: string
+                      description: Description of why the document was updated.
+                      x-elasticsearch-type: text
+                    __meta_revisions:
+                      type: object
+                      additionalProperties: false
+                      description: Stores previous versions of the document's content.
+                      x-elasticsearch-type: object
+                    __meta_document_ref:
+                      type: string
+                      description: List of document IDs that this document refers to.
+                      x-elasticsearch-type: keyword
+        responses:
+          "200":
+            description: Index configured successfully
+          default:
+            description: Unexpected error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Document:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Contains the main content or details of the document.
+
+        # Memory/Achievement/Reminder/Todo-specific Properties
+
+        peopleInvolved:
+          type: array
+          items:
+            type: string
+          description: "List of people involved in the memory or event."
+
+        priority:
+          type: string
+          description: "Priority level of the task or reminder (e.g., high, medium, low)."
+
+        start_date:
+          type: string
+          format: "date-time"
+          description:
+            The start date or time associated with the document, such as the
+            beginning of an event or the due date of a task.
+        end_date:
+          type: string
+          format: "date-time"
+          description:
+            The end date or time associated with the document, such as the end
+            of an event or the deadline of a task.
+
+        status:
+          type: string
+          description: The current status of the document
+
+        location:
+          type: string
+          description: "Location where the memory or event occurred."
+
+        # Location-specific Properties
+        visitedWith:
+          type: array
+          items:
+            type: string
+          description: "List of people who visited the location with you."
+
+        # Quote-specific Properties
+        author:
+          type: string
+          description: "Author of the quote."
+        context:
+          type: string
+          description: "Context or occasion where the quote was said."
+
+        # Internal properties
+
+        "@timestamp":
+          type: string
+          description: The timestamp when the document was created or updated.
+          format: date-time
+
+        type:
+          type: string
+          description:
+            Defines the category or type of the document, such as reminder,
+            achievement, file, location, event, task, etc.
+        tag:
+          type: array
+          items:
+            type: string
+          description: "Tags associated with the document for easier categorization."
+        __meta_revisions:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              timestamp:
+                type: string
+                format: date-time
+              __meta_update_reason:
+                type: string
+                description: Description of why the document was updated.
+          description:
+            Description of why the document was updated, providing context for
+            the changes made.
+        __meta_document_ref:
+          type: array
+          items:
+            type: string
+          description:
+            List of document IDs that this document refers to, enabling rich
+            inter-document relationships.
+        __meta_disabled:
+          type: boolean
+          description: Flag indicating whether the document is disabled or inactive.
+
+      required:
+        - type
+        - content
+        - status
+        - "@timestamp"
+        - tag
+
+    DocumentUpdate:
+      type: object
+      properties:
+        doc:
+          type: object
+          additionalProperties: true
+          description: Fields to update in the document.
+        upsert:
+          type: object
+          additionalProperties: true
+          description: Document to insert if it does not exist.
+        script:
+          type: object
+          properties:
+            source:
+              type: string
+              description: Inline script to execute on the document.
+      oneOf:
+        - required:
+            - script
+        - required:
+            - doc
+        - required:
+            - upsert
+
+    SearchResults:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                description: Document ID
+              _source:
+                $ref: "#/components/schemas/Document"
+          description: Array of documents that match the search criteria
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        context:
+          type: string
+          description: Detailed context about where the error occurred.

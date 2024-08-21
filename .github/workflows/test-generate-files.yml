@@ -1,0 +1,23 @@
+name: Test Generate Files
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Run test-generate-files.sh
+        run: |
+          chmod +x tests/test-generate-files.sh
+          ./tests/test-generate-files.sh
