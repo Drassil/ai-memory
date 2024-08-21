@@ -28,8 +28,8 @@ teardown() {
 @test "Check if the script processes the default configuration file" {
     run bash ../generate-files.sh
     [ "$status" -eq 0 ]
-    [ -f "../out/default.gpt-schema.yml" ]
-    [ -f "../out/default.gpt-instructions.md" ]
+    [ -f "./out/default.gpt-schema.yml" ]
+    [ -f "./out/default.gpt-instructions.md" ]
 }
 
 @test "Check if warnings are displayed for missing variables in dist file" {
