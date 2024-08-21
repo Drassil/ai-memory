@@ -79,7 +79,7 @@ Set the API key for the action using the one generated from Elasticsearch. It's 
 
  select
 
- the Authentication type: `ApiKey`. The API key box should contain the value `ApiKey <yourapikey>` (the prefix `ApiKey` is fundamental) and the Auth should be set to `Custom` with the value `Authorizer`
+ the Authentication type: `ApiKey`. The API key box should contain the value `ApiKey <yourapikey>` (the prefix `ApiKey` is fundamental) and the Auth should be set to `Custom` with the value `Authorization`
 
 ### Using the GPT
 
