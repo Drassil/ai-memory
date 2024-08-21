@@ -25,4 +25,5 @@ jobs:
       - name: Run test-generate-files.sh
         run: |
           chmod +x tests/test-generate-files.sh
-          ./tests/test-generate-files.sh
+          cd ./tests/
+          bash ./test-generate-files.sh
