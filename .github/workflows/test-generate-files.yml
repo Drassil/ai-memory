@@ -17,6 +17,11 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Install Bats
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bats
+
       - name: Run test-generate-files.sh
         run: |
           chmod +x tests/test-generate-files.sh
