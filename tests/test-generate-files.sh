@@ -13,7 +13,6 @@ setup() {
 
     cp ../gpt-schema.dist.yml ./gpt-schema.dist.yml
     cp ../gpt-instructions.dist.md ./gpt-instructions.dist.md
-    cp ../gpt-values-override-conf.default.sh ./gpt-values-override-conf.default.sh
 }
 
 # Teardown function to clean up after each test
