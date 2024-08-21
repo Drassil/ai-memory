@@ -76,10 +76,10 @@ process_conf_file() {
     fi
 
     # Replace placeholders in the files using envsubst
-    envsubst <gpt-schema.dist.yml >"out/gpt-schema.$my_id.yml"
-    envsubst <gpt-instructions.dist.md >"out/gpt-instructions.$my_id.md"
+    envsubst <gpt-schema.dist.yml >"out/$my_id.gpt-schema.yml"
+    envsubst <gpt-instructions.dist.md >"out/$my_id.gpt-instructions.md"
 
-    echo "Files gpt-schema.$my_id.yml and gpt-instructions.$my_id.md have been generated."
+    echo "Files $my_id.gpt-schema.yml and $my_id.gpt-instructions.md have been generated."
 }
 
 # Loop over all configuration files, skipping the .dist.sh file
