@@ -1,4 +1,4 @@
-# MyElasticSearch Documentation
+# AI Memory Documentation
 
 ## Purpose
 

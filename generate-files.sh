@@ -2,6 +2,9 @@
 
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 
+# avoid variables to be replaced
+export ref='$ref'
+
 # Function to process each configuration file
 process_conf_file() {
     local conf_file=$1
