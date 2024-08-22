@@ -1,7 +1,7 @@
 ---
 openapi: 3.1.0
 info:
-  version: 1.0.0
+  version: 0.4.0
   title: Elasticsearch API
   license:
     name: MIT
@@ -265,6 +265,7 @@ components:
   schemas:
     Document:
       type: object
+      additionalProperties: true
       properties:
         content:
           type: string
@@ -350,6 +351,9 @@ components:
           description:
             Description of why the document was updated, providing context for
             the changes made.
+        __meta_update_reason:
+          type: string
+          description: Description of why the document was updated.
         __meta_document_ref:
           type: array
           items:
@@ -370,6 +374,7 @@ components:
 
     DocumentUpdate:
       type: object
+      additionalProperties: true
       properties:
         doc:
           type: object
@@ -395,6 +400,7 @@ components:
 
     SearchResults:
       type: object
+      additionalProperties: true
       properties:
         results:
           type: array
