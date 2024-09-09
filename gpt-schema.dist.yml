@@ -1,7 +1,7 @@
 ---
 openapi: 3.1.0
 info:
-  version: 0.4.0
+  version: 0.5.0
   title: Elasticsearch API
   license:
     name: MIT
@@ -151,23 +151,42 @@ paths:
                   description: Sort order for results
                   items:
                     type: object
+                    example:
+                      field_name: 
+                        order: asc
+                    additionalProperties: false
                     properties:
                       field_name:
-                        type: string
-                      order:
-                        type: string
-                        enum:
-                          - asc
-                          - desc
+                        type: object
+                        description: "Sorting criteria for the specified field"
+                        properties:
+                          order:
+                            type: string
+                            enum:
+                              - asc
+                              - desc
+                            description: "Sort order, either ascending (asc) or descending (desc)"
+                          mode:
+                            type: string
+                            enum:
+                              - min
+                              - max
+                              - sum
+                              - avg
+                              - median
+                            description: "Mode to resolve conflicts in sorting for multi-valued fields"
+                          missing:
+                            type: string
+                            description: "Specifies how to handle missing values ('_last' or '_first')"
+                          unmapped_type:
+                            type: string
+                            description: "Specifies how to treat unmapped fields during sorting"
+                            enum:
+                              - long
                 from:
                   type: integer
                   description: Starting point for results (for pagination)
                   example: 0
-                _source:
-                  type: array
-                  description: Specifies which fields to return
-                  items:
-                    type: string
                 highlight:
                   type: object
                   description: Highlighting options for search results
@@ -179,10 +198,6 @@ paths:
                   description: Aggregations for the search results
                   additionalProperties:
                     type: object
-                track_total_hits:
-                  type: boolean
-                  description: Whether to track the total number of hits
-                  example: true
               required:
                 - query
                 - size

@@ -100,7 +100,7 @@ for conf_file in conf/gpt-values-override-conf.*.sh; do
     fi
 
     # Extract the [my_id] part from the filename
-    my_id=$(echo "$conf_file" | sed 's/^gpt-values-override-conf\.//;s/\.sh$//')
+    my_id=$(echo "$conf_file" | sed 's/.*gpt-values-override-conf\.\(.*\)\.sh/\1/')
 
     # Process the configuration file
     process_conf_file "$conf_file" "$my_id"
