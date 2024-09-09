@@ -5,11 +5,17 @@
 # Example: https://your-elastic-search-url
 export AI_MEMORY_ELASTIC_SEARCH_URL="https://your-elastic-search-url"
 
-# Elasticsearch index name
-# This is the sufffix of the index where the documents will be stored
+# Elasticsearch write index name
+# This is the suffix of the index where the documents will be stored
 # The final index name will be: index-ai-memory-${AI_MEMORY_ELASTIC_SEARCH_INDEX_SUFFIX}
 # Example: default
-export AI_MEMORY_ELASTIC_SEARCH_INDEX_SUFFIX="default"
+export AI_MEMORY_ELASTIC_SEARCH_WRITE_INDEX_SUFFIX="default"
+
+# Elasticsearch read index name
+# This is the suffix of the index where the documents will be read from
+# The final index name will be: index-ai-memory-${AI_MEMORY_ELASTIC_SEARCH_INDEX_SUFFIX}
+# Example: default
+export AI_MEMORY_ELASTIC_SEARCH_READ_INDEX_SUFFIX=*
 
 # Personal name
 # This is the name that will be used in the model's responses

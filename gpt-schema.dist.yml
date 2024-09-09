@@ -9,7 +9,7 @@ servers:
   - url: ${AI_MEMORY_ELASTIC_SEARCH_URL}
 
 paths:
-  /index-ai-memory-${AI_MEMORY_ELASTIC_SEARCH_INDEX_SUFFIX}/_doc/:
+  /index-ai-memory-${AI_MEMORY_ELASTIC_SEARCH_WRITE_INDEX_SUFFIX}/_doc/:
     post:
       summary: Add a new document. The content field is always required.
       operationId: addDocument
@@ -40,7 +40,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/index-ai-memory-${AI_MEMORY_ELASTIC_SEARCH_INDEX_SUFFIX}/_update/{id}":
+  "/index-ai-memory-${AI_MEMORY_ELASTIC_SEARCH_WRITE_INDEX_SUFFIX}/_update/{id}":
     post:
       summary: Update a document by ID
       operationId: updateDocument
@@ -70,7 +70,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /index-ai-memory-${AI_MEMORY_ELASTIC_SEARCH_INDEX_SUFFIX}/_update_by_query:
+  /index-ai-memory-${AI_MEMORY_ELASTIC_SEARCH_WRITE_INDEX_SUFFIX}/_update_by_query:
     post:
       summary: Bulk update documents by query
       operationId: bulkUpdateDocuments
@@ -114,7 +114,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /index-ai-memory-*/_search:
+  /index-ai-memory-${AI_MEMORY_ELASTIC_SEARCH_READ_INDEX_SUFFIX}/_search:
     post:
       summary: Search for documents
       operationId: searchDocuments
@@ -200,7 +200,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /index-ai-memory-${AI_MEMORY_ELASTIC_SEARCH_INDEX_SUFFIX}/_mapping:
+  /index-ai-memory-${AI_MEMORY_ELASTIC_SEARCH_WRITE_INDEX_SUFFIX}/_mapping:
     put:
       summary: Configure the index with custom mappings
       operationId: configureIndex

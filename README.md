@@ -52,11 +52,11 @@ curl -X POST "localhost:9200/_security/api_key?pretty" -H 'Content-Type: applica
 
 ### 4. Configure Environment Variables
 
-Copy the `gpt-values-override-conf.dist.sh` file and replace `dist` with the ID you want. Set the needed values in the new file.
+Copy the `gpt-values-override-conf.dist.sh` file inside the `conf` folder, and replace `dist` with the ID you want. Set the needed values in the new file.
 
 Example:
 ```sh
-cp gpt-values-override-conf.dist.sh gpt-values-override-conf.myid.sh
+cp gpt-values-override-conf.dist.sh conf/gpt-values-override-conf.myid.sh
 ```
 
 Edit `gpt-values-override-conf.myid.sh` and set your values

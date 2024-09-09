@@ -82,11 +82,18 @@ process_conf_file() {
     envsubst <gpt-schema.dist.yml >"out/$my_id.gpt-schema.yml"
     envsubst <gpt-instructions.dist.md >"out/$my_id.gpt-instructions.md"
 
+    # Reset the variables
+    for var in "${dist_vars[@]}"; do
+        if [ -n "$var" ]; then
+            unset "$var"
+        fi
+    done
+
     echo "Files $my_id.gpt-schema.yml and $my_id.gpt-instructions.md have been generated."
 }
 
 # Loop over all configuration files, skipping the .dist.sh file
-for conf_file in gpt-values-override-conf.*.sh; do
+for conf_file in conf/gpt-values-override-conf.*.sh; do
     # Skip the .dist.sh file
     if [[ "$conf_file" == *".dist.sh" ]]; then
         continue
