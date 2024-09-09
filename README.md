@@ -19,7 +19,7 @@ To install Elasticsearch, follow the official [Elasticsearch documentation](http
 
 ### 2. Create the Index
 
-You need to create an index with the prefix `index-ai-memory-` and a suffix that you can set in the configuration file under the `AI_MEMORY_ELASTIC_SEARCH_INDEX_SUFFIX` variable. This can be done via the Elasticsearch CLI or Kibana.
+You need to create an index with the prefix `index-ai-memory-` and a suffix that you can set in the configuration file under the `AI_MEMORY_ELASTIC_SEARCH_WRITE_INDEX_SUFFIX` variable. This can be done via the Elasticsearch CLI or Kibana.
 
 Example using Elasticsearch CLI:
 ```sh

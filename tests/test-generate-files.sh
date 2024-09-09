@@ -3,13 +3,13 @@
 # Setup function to create necessary files before each test
 setup() {
     mkdir -p out
-    echo 'export AI_MEMORY_ELASTIC_SEARCH_URL="https://hw2nl.ddns.net/elasticsearch"' >gpt-values-override-conf.default.sh
-    echo 'export AI_MEMORY_ELASTIC_SEARCH_INDEX="index-ai-memory-default"' >>gpt-values-override-conf.default.sh
-    echo 'export AI_MEMORY_PERSONAL_NAME="Test"' >>gpt-values-override-conf.default.sh
-    echo 'export AI_MEMORY_EXTRA_PERSONAL_INFO="Interaction languages: English"' >>gpt-values-override-conf.default.sh
+    echo 'export AI_MEMORY_ELASTIC_SEARCH_URL="https://hw2nl.ddns.net/elasticsearch"' >conf/gpt-values-override-conf.default.sh
+    echo 'export AI_MEMORY_ELASTIC_SEARCH_WRITE_INDEX="index-ai-memory-default"' >>conf/gpt-values-override-conf.default.sh
+    echo 'export AI_MEMORY_PERSONAL_NAME="Test"' >>conf/gpt-values-override-conf.default.sh
+    echo 'export AI_MEMORY_EXTRA_PERSONAL_INFO="Interaction languages: English"' >>conf/gpt-values-override-conf.default.sh
 
     echo 'export AI_MEMORY_ELASTIC_SEARCH_URL="https://default-url.com"' >gpt-values-override-conf.dist.sh
-    echo 'export AI_MEMORY_ELASTIC_SEARCH_INDEX="default-index"' >>gpt-values-override-conf.dist.sh
+    echo 'export AI_MEMORY_ELASTIC_SEARCH_WRITE_INDEX="default-index"' >>gpt-values-override-conf.dist.sh
 
     cp ../gpt-schema.dist.yml ./gpt-schema.dist.yml
     cp ../gpt-instructions.dist.md ./gpt-instructions.dist.md
@@ -40,8 +40,8 @@ teardown() {
 }
 
 @test "Check if fallback values are used when variables are not defined in override file" {
-    echo 'export AI_MEMORY_ELASTIC_SEARCH_INDEX=""' >gpt-values-override-conf.default.sh
+    echo 'export AI_MEMORY_ELASTIC_SEARCH_WRITE_INDEX=""' >gpt-values-override-conf.default.sh
     run bash ../generate-files.sh
     [ "$status" -eq 0 ]
-    [[ "$output" == *"Warning: The variable AI_MEMORY_ELASTIC_SEARCH_INDEX is not defined in gpt-values-override-conf.default.sh. The fallback value will be used."* ]]
+    [[ "$output" == *"Warning: The variable AI_MEMORY_ELASTIC_SEARCH_WRITE_INDEX is not defined in gpt-values-override-conf.default.sh. The fallback value will be used."* ]]
 }
